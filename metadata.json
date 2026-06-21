@@ -1,0 +1,6 @@
+{
+  "name": "TaskFlow IA",
+  "description": "Un gestor de tareas de equipo moderno y responsivo con estadísticas en tiempo real, filtros avanzados, modo claro/oscuro y almacenamiento local persistente.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

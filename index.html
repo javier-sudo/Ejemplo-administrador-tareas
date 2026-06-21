@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="es" class="h-full">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TaskFlow IA - Gestor de Tareas de Equipo</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/style.css">
+  </head>
+  <body class="flex h-screen w-full bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 overflow-hidden font-sans selection:bg-indigo-500 selection:text-white">
+
+    <!-- App Wrapper: Sidebar + Main Content -->
+    <div class="flex h-full w-full overflow-hidden">
+      
+      <!-- Sidebar Panel (Clean Utility Theme) -->
+      <aside class="w-64 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 flex flex-col h-full shrink-0 hidden md:flex transition-colors duration-200">
+        <!-- Brand Signature -->
+        <div class="p-6">
+          <div class="flex items-center gap-2.5 mb-8">
+            <div class="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center text-white font-bold text-lg select-none shadow-md shadow-indigo-500/20">T</div>
+            <div>
+              <h1 class="text-lg font-bold tracking-tight text-slate-800 dark:text-white">
+                TaskFlow <span class="text-indigo-600 dark:text-indigo-400 font-extrabold">IA</span>
+              </h1>
+              <p class="text-[10px] text-slate-400 dark:text-slate-500">Manejo de equipo modular</p>
+            </div>
+          </div>
+
+          <!-- Navigation Shortcuts -->
+          <nav class="space-y-1 mb-8">
+            <a href="#" class="flex items-center gap-3 px-3.5 py-2.5 bg-indigo-50/70 dark:bg-indigo-950/40 text-indigo-700 dark:text-indigo-400 rounded-xl font-semibold text-xs transition duration-150">
+              <span>📊</span> Tablero Principal
+            </a>
+            <a href="#" class="flex items-center gap-3 px-3.5 py-2.5 text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800/50 rounded-xl text-xs transition duration-150">
+              <span>👥</span> Colaboradores
+            </a>
+          </nav>
+
+          <!-- Sidebar Filters Area -->
+          <div class="border-t border-slate-100 dark:border-slate-800/80 pt-6">
+            <p class="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-4 px-1.5">Filtros Dinámicos</p>
+            
+            <div class="space-y-4 px-1.5">
+              <!-- Filter Status -->
+              <div>
+                <label for="filterStatus" class="text-[11px] text-slate-500 dark:text-slate-400 block mb-1.5 font-semibold">Estado de Tarea</label>
+                <select id="filterStatus" class="w-full text-xs border border-slate-200 dark:border-slate-800 rounded-lg bg-slate-50 dark:bg-slate-950 py-1.5 px-2.5 focus:outline-none focus:ring-1.5 focus:ring-indigo-500 dark:focus:ring-indigo-400/50">
+                  <option value="all">📁 Todos los Estados</option>
+                  <option value="pending">💤 Pendiente</option>
+                  <option value="in_progress">⚡ En Progreso</option>
+                  <option value="completed">🎉 Completada</option>
+                </select>
+              </div>
+
+              <!-- Filter Priority -->
+              <div>
+                <label for="filterPriority" class="text-[11px] text-slate-500 dark:text-slate-400 block mb-1.5 font-semibold">Nivel de Prioridad</label>
+                <select id="filterPriority" class="w-full text-xs border border-slate-200 dark:border-slate-800 rounded-lg bg-slate-50 dark:bg-slate-950 py-1.5 px-2.5 focus:outline-none focus:ring-1.5 focus:ring-indigo-500 dark:focus:ring-indigo-400/50">
+                  <option value="all">🎯 Todas las Prioridades</option>
+                  <option value="high">🔴 Alta</option>
+                  <option value="medium">🟡 Media</option>
+                  <option value="low">🟢 Baja</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Team Status & Profile badge at current footer of sidebar -->
+        <div class="mt-auto p-6 border-t border-slate-150 dark:border-slate-800">
+          <div class="flex items-center gap-3">
+            <div class="w-8 h-8 rounded-full bg-indigo-120 dark:bg-indigo-950/60 flex items-center justify-center text-xs font-bold text-indigo-700 dark:text-indigo-400 ring-2 ring-indigo-100 dark:ring-indigo-950 select-none">JD</div>
+            <div class="overflow-hidden">
+              <p class="text-xs font-bold truncate text-slate-800 dark:text-slate-200">Juan Diego</p>
+              <p class="text-[10px] text-slate-400 dark:text-slate-500 truncate">Líder del Equipo</p>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main Content Stage Area -->
+      <main class="flex-1 flex flex-col h-full overflow-hidden bg-slate-50/70 dark:bg-slate-950 transition-colors duration-200">
+        
+        <!-- Top Workspace Bar (Header) -->
+        <header class="h-16 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 px-6 sm:px-8 flex items-center justify-between shrink-0 transition-colors duration-200">
+          <div class="flex items-center space-x-3">
+            <!-- Mobile Toggle / Hamburger Logo -->
+            <div class="p-2 bg-indigo-50 dark:bg-indigo-950/50 rounded-lg text-indigo-600 dark:text-indigo-400 md:hidden">
+              <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2" />
+              </svg>
+            </div>
+            <h2 class="text-sm sm:text-base font-bold text-slate-800 dark:text-slate-100 tracking-tight">Mesa de Trabajo</h2>
+          </div>
+
+          <div class="flex items-center gap-4">
+            
+            <!-- Universal Search inside header -->
+            <div class="relative max-w-xs shrink-0">
+              <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 dark:text-slate-500">
+                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+              </span>
+              <input type="text" id="searchInput" placeholder="Buscar tareas..." class="w-36 sm:w-48 pl-8 pr-3 py-1.5 border border-slate-200 dark:border-slate-800 rounded-lg text-xs bg-slate-50 dark:bg-slate-950 focus:outline-none focus:ring-1.5 focus:ring-indigo-500 dark:focus:ring-indigo-400/50 transition-all duration-150">
+            </div>
+
+            <!-- Dark Mode Toggle Button (Styled to coordinate perfectly) -->
+            <button id="themeToggle" class="p-2 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800 focus:outline-none transition-all duration-150" title="Cambiar tema">
+              <svg id="sunIcon" class="w-4.5 h-4.5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2?">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.364l-.707-.707M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+              <svg id="moonIcon" class="w-4.5 h-4.5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+              </svg>
+            </button>
+
+            <!-- Nueva Tarea trigger -->
+            <button id="btnNewTask" class="bg-indigo-600 dark:bg-indigo-505 dark:hover:bg-indigo-600 text-white hover:bg-indigo-700 px-3.5 py-1.5 rounded-lg text-xs font-semibold shadow-sm focus:outline-none active:scale-95 transition-all duration-150 flex items-center gap-1.5">
+              <span>+</span> Nueva Tarea
+            </button>
+          </div>
+        </header>
+
+        <!-- Main Scrolling Segment -->
+        <div class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 space-y-8">
+          
+          <!-- Mobile Filters Panel (Hides on desktop as we have the sidebar filters) -->
+          <section class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800/80 p-4 rounded-xl shadow-sm md:hidden grid grid-cols-2 gap-3">
+            <div>
+              <label for="filterStatusMobile" class="text-[10px] text-slate-400 dark:text-slate-500 uppercase font-bold block mb-1">Estado</label>
+              <!-- We align this with filterStatus inside our JS listener or let them point to the same global. 
+                   Tip: We can let our JS also bind events for standard inputs, or let's double map.
+                   Wait, to keep JS simple and flawless, let's keep the filterStatus/filterPriority inputs on mobile using the same elements,
+                   but we can duplicate their layout. Wait, let's use the exact select elements with identical IDs in our single document! 
+                   Since we have IDs on the sidebar as 'filterStatus' and 'filterPriority', let's render standard selector buttons, 
+                   or let's just make the sidebar visible on mobile using hidden md:flex -> block. Easy and responsive! -->
+            </div>
+          </section>
+
+          <!-- Status Card Metrics Grid -->
+          <section>
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+              <!-- Total -->
+              <div class="bg-white dark:bg-slate-900 px-5 py-4 rounded-xl border border-slate-200 dark:border-slate-800/80 shadow-sm relative overflow-hidden transition-all duration-200">
+                <p class="text-slate-500 dark:text-slate-400 text-xs font-semibold">Total Tareas</p>
+                <p id="statTotal" class="text-2xl font-bold text-slate-800 dark:text-white mt-1">0</p>
+              </div>
+              
+              <!-- Pendientes -->
+              <div class="bg-white dark:bg-slate-900 px-5 py-4 rounded-xl border border-slate-200 dark:border-slate-800/80 shadow-sm relative overflow-hidden transition-all duration-200">
+                <p class="text-slate-500 dark:text-slate-400 text-xs font-semibold">Pendientes</p>
+                <div class="flex items-center gap-2 mt-1">
+                  <p id="statPending" class="text-2xl font-bold text-slate-800 dark:text-white">0</p>
+                  <span class="text-xs bg-amber-50 dark:bg-amber-950/40 text-amber-600 px-1.5 py-0.5 rounded-md font-bold border border-amber-200/50 dark:border-amber-900/40">💤</span>
+                </div>
+              </div>
+
+              <!-- En Progreso -->
+              <div class="bg-white dark:bg-slate-900 px-5 py-4 rounded-xl border border-slate-200 dark:border-slate-800/80 shadow-sm relative overflow-hidden transition-all duration-200">
+                <p class="text-slate-500 dark:text-slate-400 text-xs font-semibold">En Progreso</p>
+                <div class="flex items-center gap-2 mt-1">
+                  <p id="statInProgress" class="text-2xl font-bold text-slate-800 dark:text-white">0</p>
+                  <span class="text-xs bg-blue-50 dark:bg-blue-950/40 text-blue-600 px-1.5 py-0.5 rounded-md font-bold border border-blue-200/50 dark:border-blue-900/40">⚡</span>
+                </div>
+              </div>
+
+              <!-- Completadas -->
+              <div class="bg-white dark:bg-slate-900 px-5 py-4 rounded-xl border border-slate-200 dark:border-slate-800/80 shadow-sm relative overflow-hidden transition-all duration-200">
+                <p class="text-slate-500 dark:text-slate-400 text-xs font-semibold">Completadas</p>
+                <div class="flex items-center gap-2 mt-1">
+                  <p id="statCompleted" class="text-2xl font-bold text-slate-800 dark:text-white">0</p>
+                  <span class="text-xs bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 px-1.5 py-0.5 rounded-md font-bold border border-emerald-200/50 dark:border-emerald-950/40">🎉</span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- MOBILE FILTERS ACCESS (Displays selectors only below md screens inline) -->
+          <div class="md:hidden flex flex-col sm:flex-row gap-3 bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+            <div class="flex items-center justify-between gap-2 flex-1">
+              <span class="text-xs font-bold text-slate-400">Filtrar Estado:</span>
+              <select id="filterStatusMobile" class="text-xs border border-slate-200 dark:border-slate-800 rounded-lg bg-slate-50 dark:bg-slate-950 py-1.5 px-2 focus:outline-none">
+                <option value="all">📁 Todos</option>
+                <option value="pending">💤 Pendiente</option>
+                <option value="in_progress">⚡ En Progreso</option>
+                <option value="completed">🎉 Completada</option>
+              </select>
+            </div>
+            <div class="flex items-center justify-between gap-2 flex-1">
+              <span class="text-xs font-bold text-slate-400">Prioridad:</span>
+              <select id="filterPriorityMobile" class="text-xs border border-slate-200 dark:border-slate-800 rounded-lg bg-slate-50 dark:bg-slate-950 py-1.5 px-2 focus:outline-none">
+                <option value="all">🎯 Todas</option>
+                <option value="high">🔴 Alta</option>
+                <option value="medium">🟡 Media</option>
+                <option value="low">🟢 Baja</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Dynamic Task Listing Section -->
+          <section class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl flex flex-col shadow-sm overflow-hidden transition-colors duration-200">
+            <!-- Header for Listing Area -->
+            <div class="p-5 border-b border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50 flex justify-between items-center">
+              <h3 class="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider">Lista de Tareas Registradas</h3>
+              <div class="text-[10px] text-slate-400 dark:text-slate-500 font-semibold flex items-center gap-1.5">
+                <span class="w-1.5 h-1.5 bg-emerald-500 rounded-full"></span> Sincronizado localmente
+              </div>
+            </div>
+
+            <!-- Inside Listing Panel -->
+            <div class="p-6">
+              <!-- Empty State Block -->
+              <div id="emptyState" class="hidden flex-col items-center justify-center text-center py-12 px-4 animate-fade-in">
+                <div class="p-3.5 bg-indigo-50 dark:bg-indigo-950/30 rounded-full text-indigo-550 dark:text-indigo-400 mb-3.5 shadow-sm">
+                  <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                  </svg>
+                </div>
+                <h3 class="text-sm font-bold text-slate-900 dark:text-white">Aún no hay tareas</h3>
+                <p class="text-xs text-slate-400 dark:text-slate-500 max-w-sm mt-1 mb-4">Agrega tu primera tarea de equipo utilizando el botón de arriba.</p>
+                <button id="btnEmptyCreate" class="inline-flex items-center justify-center px-4 py-2 text-xs font-bold text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/50 hover:bg-indigo-100 dark:hover:bg-indigo-900/50 rounded-xl transition duration-150">
+                  Crear primera tarea ✨
+                </button>
+              </div>
+
+              <!-- Dynamic Grid of Cards under layout -->
+              <div id="tasksGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 animate-fade-in">
+                <!-- Injected dynamically by JavaScript rendering engine -->
+              </div>
+            </div>
+          </section>
+
+        </div>
+
+        <!-- Premium Footer area under main visual panel -->
+        <footer class="h-12 border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-6 flex items-center justify-between shrink-0 transition-colors duration-200 text-[10px] text-slate-400 dark:text-slate-500 mt-auto">
+          <p>© 2026 TaskFlow IA. Desarrollado de manera óptima para GitHub y Vercel.</p>
+          <div class="flex items-center gap-4">
+            <span class="inline-flex items-center">▲ Vercel Deployable</span>
+          </div>
+        </footer>
+
+      </main>
+
+    </div>
+
+    <!-- Modal Background & Dialog for New/Edit Task -->
+    <div id="taskModal" class="fixed inset-0 z-50 overflow-y-auto hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+      <!-- Backdrop -->
+      <div class="fixed inset-0 bg-slate-950/60 dark:bg-slate-950/80 backdrop-blur-sm transition-opacity"></div>
+
+      <!-- Modal panel wrapper -->
+      <div class="flex min-h-screen items-center justify-center p-4 text-center sm:p-0">
+        <div class="relative transform overflow-hidden rounded-2xl bg-white dark:bg-slate-900 text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-lg border border-slate-200 dark:border-slate-800 animate-fade-in">
+          
+          <div class="px-6 pt-6 pb-4 border-b border-slate-200 dark:border-slate-800 flex justify-between items-center">
+            <h3 id="modalTitle" class="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider">Nueva Tarea</h3>
+            <button id="btnModalClose" class="p-1.5 rounded-lg text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition duration-150">
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+
+          <form id="taskForm" class="p-6 space-y-4">
+            <!-- Hidden input for task index when editing -->
+            <input type="hidden" id="taskIndex" value="">
+
+            <!-- Title -->
+            <div>
+              <label for="taskTitle" class="block text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-2">Título de la Tarea *</label>
+              <input type="text" id="taskTitle" required placeholder="Ej: Redactar propuesta técnica" class="w-full px-3 py-2 border border-slate-200 dark:border-slate-800 rounded-xl text-xs bg-slate-50 dark:bg-slate-950 focus:outline-none focus:ring-1.5 focus:ring-indigo-500 dark:focus:ring-indigo-400/50">
+            </div>
+
+            <!-- Description -->
+            <div>
+              <label for="taskDesc" class="block text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-2">Descripción</label>
+              <textarea id="taskDesc" rows="3" placeholder="Detalla los entregables, enlaces de interés o responsables..." class="w-full px-3 py-2 border border-slate-200 dark:border-slate-800 rounded-xl text-xs bg-slate-50 dark:bg-slate-950 focus:outline-none focus:ring-1.5 focus:ring-indigo-500 dark:focus:ring-indigo-400/50"></textarea>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+              <!-- Priority -->
+              <div>
+                <label for="taskPriority" class="block text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-2">Prioridad</label>
+                <select id="taskPriority" class="w-full py-2 px-3 border border-slate-200 dark:border-slate-800 rounded-xl text-xs bg-slate-50 dark:bg-slate-950 focus:outline-none focus:ring-1.5 focus:ring-indigo-500 dark:focus:ring-indigo-400/50">
+                  <option value="high">🔴 Alta</option>
+                  <option value="medium">🟡 Media</option>
+                  <option value="low">🟢 Baja</option>
+                </select>
+              </div>
+
+              <!-- Status -->
+              <div>
+                <label for="taskStatus" class="block text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-2">Estado</label>
+                <select id="taskStatus" class="w-full py-2 px-3 border border-slate-200 dark:border-slate-800 rounded-xl text-xs bg-slate-50 dark:bg-slate-950 focus:outline-none focus:ring-1.5 focus:ring-indigo-500 dark:focus:ring-indigo-400/50">
+                  <option value="pending">💤 Pendiente</option>
+                  <option value="in_progress">⚡ En Progreso</option>
+                  <option value="completed">🎉 Completada</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Footer Buttons -->
+            <div class="pt-4 border-t border-slate-200 dark:border-slate-800 flex justify-end space-x-3">
+              <button type="button" id="btnModalCancel" class="px-4 py-2 text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition duration-150">
+                Cancelar
+              </button>
+              <button type="submit" id="btnSubmitTask" class="px-5 py-2 bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 text-white font-semibold rounded-xl text-xs shadow-md transition duration-150">
+                Guardar Tarea
+              </button>
+            </div>
+          </form>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast Notification (Elegant micro-interaction) -->
+    <div id="toast" class="fixed bottom-5 right-5 sm:right-6 bg-slate-900 text-white dark:bg-white dark:text-slate-900 border border-slate-800 dark:border-slate-100 py-3 px-5 rounded-2xl shadow-xl flex items-center space-x-2.5 transition-all duration-300 transform translate-y-24 opacity-0 z-50">
+      <span id="toastIcon" class="text-base">✨</span>
+      <span id="toastMsg" class="text-xs font-semibold">Acción realizada correctamente</span>
+    </div>
+
+    <!-- Vanilla Script Integration -->
+    <script type="module" src="/script.js"></script>
+  </body>
+</html>
